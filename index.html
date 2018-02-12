@@ -1,0 +1,37 @@
+<!doctype html>
+<html>
+    <head>
+        <meta charset="UTF-8" />
+        <title>hello phaser!</title>
+        <script src="assets/js/phaser.min.js"></script>
+        <script src="assets/js/person.js"></script>
+    </head>
+    <body>
+
+    <script type="text/javascript">
+
+    window.onload = function() {
+        game = new Phaser.Game(800, 600, Phaser.AUTO, '', {preload: preload, create: create});
+        scale = 2;
+        let boy = new Boy();
+        let girl = new Girl();
+
+        function preload() {
+            boy.prepare();
+            girl.prepare();
+        }
+
+        function create() {
+            boy.show();
+            girl.show();
+
+            boy.walk();
+            girl.walk();
+        }
+    };
+
+
+    </script>
+
+    </body>
+</html>
