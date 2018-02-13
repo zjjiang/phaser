@@ -12,21 +12,20 @@
 
     window.onload = function() {
         game = new Phaser.Game(800, 600, Phaser.AUTO, '', {preload: preload, create: create});
-        scale = 2;
-        let boy = new Boy();
-        let girl = new Girl();
+        let normalBoy = new NormalBoy();
+        let normalGirl = new NormalGirl();
 
         function preload() {
-            boy.prepare();
-            girl.prepare();
+            normalBoy.prepare();
+            normalGirl.prepare();
         }
 
         function create() {
-            boy.show();
-            girl.show();
+            normalBoy.show();
+            normalGirl.show();
 
-            boy.walk();
-            girl.walk();
+            normalBoy.walk();
+            normalGirl.walk();
         }
     };
 

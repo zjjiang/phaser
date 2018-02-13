@@ -2,110 +2,96 @@
  * Created by Jzj on 2018/2/10.
  */
 
-
-
-
 class Person {
-    initData() { }
+    init() {}
+    getFrameData(images, direction='toRight') {
+        var data = Object();
+        data["frames"] = new Array();
+        var w = 0;
+        var index = 0;
+        var x = 0;
+        while(w < this.endPos) {
+            if(direction == "toRight") {
+                x = w;
+            } else {
+                x = 0 - w;
+            }
+
+            var item = new Object();
+            item["filename"] = "run" + index;
+            item["rotated"] = false;
+            item["trimmed"] = true;
+            item["sourceSize"] = {"w": this.width, "h": this.height};
+            item["frame"] = images[index%images.length];
+            item["spriteSourceSize"] = {
+                "x" : x,
+                "y": 0,
+                "w": this.width,
+                "h": this.height
+            };
+            index ++;
+            w += this.step;
+            data["frames"].push(item);
+        }
+        return data;
+    }
     prepare() { }
-    show() { }
-    walk() { }
-}
-
-
-class Boy extends Person{
-    initData() {
-        var data = Object();
-        data["frames"] = new Array();
-        var images = new Array();
-        images.push({"x": 0, "y": 96, "w": 32, "h": 48});
-        images.push({"x": 32, "y": 96, "w": 32, "h": 48});
-        images.push({"x": 64, "y": 96, "w": 32, "h": 48});
-        images.push({"x": 96, "y": 96, "w": 32, "h": 48});
-
-        var w = 0;
-        var step = 8;
-        var index = 0;
-        while(w < game.world.width/2/scale-32-16) {
-            var item = new Object();
-            item["filename"] = "run" + index;
-            item["rotated"] = false;
-            item["trimmed"] = true;
-            item["sourceSize"] = {"w": 32, "h": 48};
-            item["frame"] = images[index%images.length];
-            item["spriteSourceSize"] = {
-                "x" : w,
-                "y": 0,
-                "w": 32,
-                "h": 48
-            };
-            index ++;
-            w += step;
-            data["frames"].push(item);
-        }
-        return data;
-    }
-
-    prepare() {
-        game.load.atlas('boy', 'assets/images/boy.png', null, this.initData());
-    }
-
     show() {
-        this.person = game.add.sprite(50, game.world.height - 100, 'boy');
-        this.person.scale.set(scale);
+        this.person = game.add.sprite(this.startPosX, this.startPosY, this.name);
+        this.person.scale.set(this.scale);
         this.anim = this.person.animations.add('walk', false);
     }
     walk() {
-        this.person.animations.play('walk', 5, false);
+        this.person.animations.play('walk', this.speed, false);
     }
 }
 
+class NormalBoy extends Person{
+    
+    prepare() {
+        this.scale = 2;
+        this.speed = 5;
+        this.step = 8;
+        this.width = 32;
+        this.height = 48;
+        this.endPos = game.world.width/2/this.scale-32-16;
+        this.startPosX = 50;
+        this.startPosY = game.world.height - 100;
+        this.name = 'normalBoy'
+        this.srcImage = 'assets/images/boy.png';
+        this.images = new Array();
+        this.images.push({"x": 0, "y": 96, "w": this.width, "h": this.height});
+        this.images.push({"x": 32, "y": 96, "w": this.width, "h": this.height});
+        this.images.push({"x": 64, "y": 96, "w": this.width, "h": this.height});
+        this.images.push({"x": 96, "y": 96, "w": this.width, "h": this.height});
+        this.frameData = this.getFrameData(this.images, 'toRight');
 
-class Girl extends Person{
-    initData() {
-        var data = Object();
-        data["frames"] = new Array();
-        var images = new Array();
-        images.push({"x": 0, "y": 48, "w": 32, "h": 48});
-        images.push({"x": 32, "y": 48, "w": 32, "h": 48});
-        images.push({"x": 64, "y": 48, "w": 32, "h": 48});
-        images.push({"x": 96, "y": 48, "w": 32, "h": 48});
-
-        var w = 0;
-        console.log(w);
-        var step = 8;
-        var index = 0;
-        while(w < game.world.width/2/scale-32) {
-            var item = new Object();
-            item["filename"] = "run" + index;
-            item["rotated"] = false;
-            item["trimmed"] = true;
-            item["sourceSize"] = {"w": 32, "h": 48};
-            item["frame"] = images[index%images.length];
-            item["spriteSourceSize"] = {
-                "x" : -w,
-                "y": 0,
-                "w": 32,
-                "h": 48
-            };
-            index ++;
-            w += step;
-            data["frames"].push(item);
-        }
-        return data;
+        game.load.atlas(this.name, this.srcImage, null, this.frameData);
     }
+}
+
+class NormalGirl extends Person{
 
     prepare() {
-        game.load.atlas('girl', 'assets/images/girl.png', null, this.initData());
+        this.scale = 2;
+        this.speed = 5;
+        this.step = 8;
+        this.width = 32;
+        this.height = 48;
+        this.endPos =  game.world.width/2/this.scale-32;
+        this.startPosX = game.world.width-32*this.scale-50;
+        this.startPosY = game.world.height - 100;
+        this.name = 'normalGirl'
+        this.srcImage = 'assets/images/girl.png';
+        this.images = new Array();
+        this.images.push({"x": 0, "y": 48, "w": this.width, "h": this.height});
+        this.images.push({"x": 32, "y": 48, "w": this.width, "h": this.height});
+        this.images.push({"x": 64, "y": 48, "w": this.width, "h": this.height});
+        this.images.push({"x": 96, "y": 48, "w": this.width, "h": this.height});
+        this.frameData = this.getFrameData(this.images, 'toLeft');
+
+        game.load.atlas(this.name, this.srcImage, null, this.frameData);
     }
 
-    show() {
-        this.person = game.add.sprite(game.world.width-32*scale-50, game.world.height - 100, 'girl');
-        this.person.scale.set(scale);
-        this.anim = this.person.animations.add('walk', false);
-    }
-    walk() {
-        this.person.animations.play('walk', 5, false);
-    }
 }
 
