@@ -14,18 +14,26 @@
         game = new Phaser.Game(800, 600, Phaser.AUTO, '', {preload: preload, create: create});
         let normalBoy = new NormalBoy();
         let normalGirl = new NormalGirl();
+        let fastBoy = new FastBoy();
+        let slowGirl = new SlowGirl();
 
         function preload() {
             normalBoy.prepare();
             normalGirl.prepare();
+            fastBoy.prepare();
+            slowGirl.prepare();
         }
 
         function create() {
             normalBoy.show();
             normalGirl.show();
+            fastBoy.show();
+            slowGirl.show();
 
             normalBoy.walk();
             normalGirl.walk();
+            fastBoy.walk();
+            slowGirl.walk();
         }
     };
 

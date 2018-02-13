@@ -35,7 +35,13 @@ class Person {
         }
         return data;
     }
-    prepare() { }
+    prepare() {
+        this.scale = 2;
+        this.speed = 5;
+        this.step = 8;
+        this.width = 32;
+        this.height = 48;
+    }
     show() {
         this.person = game.add.sprite(this.startPosX, this.startPosY, this.name);
         this.person.scale.set(this.scale);
@@ -47,13 +53,10 @@ class Person {
 }
 
 class NormalBoy extends Person{
-    
+
     prepare() {
-        this.scale = 2;
-        this.speed = 5;
-        this.step = 8;
-        this.width = 32;
-        this.height = 48;
+        super.prepare();
+
         this.endPos = game.world.width/2/this.scale-32-16;
         this.startPosX = 50;
         this.startPosY = game.world.height - 100;
@@ -73,11 +76,8 @@ class NormalBoy extends Person{
 class NormalGirl extends Person{
 
     prepare() {
-        this.scale = 2;
-        this.speed = 5;
-        this.step = 8;
-        this.width = 32;
-        this.height = 48;
+        super.prepare();
+
         this.endPos =  game.world.width/2/this.scale-32;
         this.startPosX = game.world.width-32*this.scale-50;
         this.startPosY = game.world.height - 100;
@@ -94,4 +94,48 @@ class NormalGirl extends Person{
     }
 
 }
+
+class FastBoy extends Person{
+
+    prepare() {
+        super.prepare();
+        this.speed = 10;
+        this.endPos = game.world.width*3/4/this.scale-32-16;
+        this.startPosX = 50;
+        this.startPosY = game.world.height - 100;
+        this.name = 'fastBoy'
+        this.srcImage = 'assets/images/boy.png';
+        this.images = new Array();
+        this.images.push({"x": 0, "y": 96, "w": this.width, "h": this.height});
+        this.images.push({"x": 32, "y": 96, "w": this.width, "h": this.height});
+        this.images.push({"x": 64, "y": 96, "w": this.width, "h": this.height});
+        this.images.push({"x": 96, "y": 96, "w": this.width, "h": this.height});
+        this.frameData = this.getFrameData(this.images, 'toRight');
+
+        game.load.atlas(this.name, this.srcImage, null, this.frameData);
+    }
+}
+
+class SlowGirl extends Person{
+
+    prepare() {
+        super.prepare();
+        this.speed = 2;
+        this.endPos = game.world.width*1/4/this.scale-40;
+        this.startPosX = game.world.width-32*this.scale-50;
+        this.startPosY = game.world.height - 100;
+        this.name = 'slowGirl'
+        this.srcImage = 'assets/images/girl.png';
+        this.images = new Array();
+        this.images.push({"x": 0, "y": 48, "w": this.width, "h": this.height});
+        this.images.push({"x": 32, "y": 48, "w": this.width, "h": this.height});
+        this.images.push({"x": 64, "y": 48, "w": this.width, "h": this.height});
+        this.images.push({"x": 96, "y": 48, "w": this.width, "h": this.height});
+        this.frameData = this.getFrameData(this.images, 'toLeft');
+
+        game.load.atlas(this.name, this.srcImage, null, this.frameData);
+    }
+}
+
+
 
