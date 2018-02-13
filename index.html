@@ -4,7 +4,9 @@
         <meta charset="UTF-8" />
         <title>hello phaser!</title>
         <script src="assets/js/phaser.min.js"></script>
+        <script src="assets/js/base.js"></script>
         <script src="assets/js/person.js"></script>
+        <script src="assets/js/heart.js"></script>
     </head>
     <body>
 
@@ -16,25 +18,59 @@
         let normalGirl = new NormalGirl();
         let fastBoy = new FastBoy();
         let slowGirl = new SlowGirl();
+        let heart = new Heart();
+        choice = "A";
+
 
         function preload() {
             normalBoy.prepare();
             normalGirl.prepare();
             fastBoy.prepare();
             slowGirl.prepare();
+            heart.prepare();
         }
 
         function create() {
-            normalBoy.show();
-            normalGirl.show();
-            fastBoy.show();
-            slowGirl.show();
+            scale = 2
+            var boyStartX = 50;
+            var boyStartY = game.world.height - 100
+            var girlStartX = game.world.width-32*scale-50
+            var girlStartY = game.world.height - 100
 
-            normalBoy.walk();
-            normalGirl.walk();
-            fastBoy.walk();
-            slowGirl.walk();
+            if(choice === "A") {
+                normalBoy.show(boyStartX, boyStartY);
+                normalGirl.show(girlStartX, girlStartY);
+                normalBoy.anim.onComplete.add(animationStopped, this);
+
+                normalBoy.action();
+                normalGirl.action();
+
+            } else if (choice === "B") {
+                fastBoy.show(boyStartX, boyStartY);
+                slowGirl.show(girlStartX, girlStartY);
+                fastBoy.anim.onComplete.add(animationStopped, this);
+
+                fastBoy.action();
+                slowGirl.action();
+            }
         }
+
+
+        function animationStopped(sprite, animation) {
+            console.log(choice);
+            setTimeout(function(){
+                if(choice === "A") {
+                    heart.show(game.world.centerX - 30, normalBoy.obj.y + 5);
+                } else if(choice === "B") {
+                    heart.show(game.world.width * 3 / 4 - 18, fastBoy.obj.y + 5);
+                } else {
+                    heart.obj.destroy();
+                }
+                heart.action(true);
+            }, 1000)
+        }
+
+
     };
 
 
