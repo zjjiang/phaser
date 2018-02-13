@@ -5,6 +5,7 @@
         <title>hello phaser!</title>
         <script src="assets/js/phaser.min.js"></script>
         <script src="assets/js/base.js"></script>
+        <script src="assets/js/ui.js"></script>
         <script src="assets/js/person.js"></script>
         <script src="assets/js/heart.js"></script>
     </head>
@@ -19,8 +20,9 @@
         let fastBoy = new FastBoy();
         let slowGirl = new SlowGirl();
         let heart = new Heart();
-        choice = "A";
-
+        let uiManager = new UIManager();
+        choice = null;
+        scale = 2;
 
         function preload() {
             normalBoy.prepare();
@@ -28,14 +30,27 @@
             fastBoy.prepare();
             slowGirl.prepare();
             heart.prepare();
+
+            game.load.image('buttonA', 'assets/images/buttonA.png');
+            game.load.image('buttonB', 'assets/images/buttonB.png');
+            game.load.image('buttonC', 'assets/images/buttonC.png');
+            game.load.image('buttonD', 'assets/images/buttonD.png');
         }
 
         function create() {
-            scale = 2
+            uiManager.initUI(callBack);
+        }
+
+        function callBack(answer) {
+            uiManager.hideButton();
+
+            choice = answer;
             var boyStartX = 50;
             var boyStartY = game.world.height - 100
             var girlStartX = game.world.width-32*scale-50
             var girlStartY = game.world.height - 100
+
+
 
             if(choice === "A") {
                 normalBoy.show(boyStartX, boyStartY);
