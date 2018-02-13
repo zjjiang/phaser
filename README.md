@@ -1,1 +1,1 @@
-# phaser
+A simple web game based on phaser framework.
