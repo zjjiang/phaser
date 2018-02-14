@@ -19,6 +19,7 @@
         let normalGirl = new NormalGirl();
         let fastBoy = new FastBoy();
         let slowGirl = new SlowGirl();
+        let flyingBoy = new FlyingBoy();
         let heart = new Heart();
         let uiManager = new UIManager();
         choice = null;
@@ -29,6 +30,7 @@
             normalGirl.prepare();
             fastBoy.prepare();
             slowGirl.prepare();
+            flyingBoy.prepare();
             heart.prepare();
 
             game.load.image('buttonA', 'assets/images/buttonA.png');
@@ -50,39 +52,59 @@
             var girlStartX = game.world.width-32*scale-50
             var girlStartY = game.world.height - 100
 
-
-
             if(choice === "A") {
                 normalBoy.show(boyStartX, boyStartY);
                 normalGirl.show(girlStartX, girlStartY);
-                normalBoy.anim.onComplete.add(animationStopped, this);
-
+                normalBoy.anim.onComplete.add(showHeart, this);
                 normalBoy.action();
                 normalGirl.action();
-
             } else if (choice === "B") {
                 fastBoy.show(boyStartX, boyStartY);
                 slowGirl.show(girlStartX, girlStartY);
-                fastBoy.anim.onComplete.add(animationStopped, this);
-
+                fastBoy.anim.onComplete.add(showHeart, this);
                 fastBoy.action();
                 slowGirl.action();
+            }
+            else if (choice === "C") {
+                flyingBoy.show(boyStartX, boyStartY);
+                slowGirl.show(girlStartX, girlStartY);
+                flyingBoy.anim.onComplete.add(showHeart, this);
+                flyingBoy.action();
             }
         }
 
 
-        function animationStopped(sprite, animation) {
-            console.log(choice);
+        function showHeart(sprite, animation) {
             setTimeout(function(){
                 if(choice === "A") {
                     heart.show(game.world.centerX - 30, normalBoy.obj.y + 5);
                 } else if(choice === "B") {
                     heart.show(game.world.width * 3 / 4 - 18, fastBoy.obj.y + 5);
-                } else {
-                    heart.obj.destroy();
+                } else if(choice === "C") {
+                    heart.show(game.world.width - 110, flyingBoy.obj.y + 5);
                 }
                 heart.action(true);
+                heart.anim.onLoop.add(showAnswer, this);
+
             }, 1000)
+        }
+
+        function showAnswer(sprite, animation) {
+            var answer = "";
+            if(animation.loopCount === 1) {
+                if(choice == "A") {
+                    answer = "么么哒，就知道你会选这个";
+                } else if(choice == "B") {
+                    answer = "以后的路，我会走稍微快点";
+                } else if(choice == "C") {
+                    answer = "以后的路，我会飞起来";
+                }
+
+                var style = { font: "30px Arial", fill: "#FFFFFF", align:"center"};
+                this.answer = game.add.text(game.world.centerX+30, game.world.centerY-30, answer, style);
+                this.answer.anchor.x = .5;
+                this.answer.anchor.y = .5;
+            }
         }
 
 

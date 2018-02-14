@@ -77,6 +77,26 @@ class SlowGirl extends AnimationObj{
     }
 }
 
+class FlyingBoy extends AnimationObj{
+
+    prepare() {
+        super.prepare();
+        this.speed = 20;
+        this.endPos = game.world.width/this.scale-90;
+        console.log(this.endPos);
+        this.name = 'flyingBoy'
+        this.srcImage = 'assets/images/boy.png';
+        this.images = new Array();
+        this.images.push({"x": 0, "y": 96, "w": this.width, "h": this.height});
+        this.images.push({"x": 32, "y": 96, "w": this.width, "h": this.height});
+        this.images.push({"x": 64, "y": 96, "w": this.width, "h": this.height});
+        this.images.push({"x": 96, "y": 96, "w": this.width, "h": this.height});
+        this.frameData = this.getFrameData(this.images, 'toRight');
+
+        game.load.atlas(this.name, this.srcImage, null, this.frameData);
+    }
+}
+
 
 
 
