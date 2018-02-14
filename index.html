@@ -32,7 +32,7 @@
             slowGirl.prepare();
             flyingBoy.prepare();
             heart.prepare();
-
+            game.load.image('back', 'assets/images/back.jpg');
             game.load.image('buttonA', 'assets/images/buttonA.png');
             game.load.image('buttonB', 'assets/images/buttonB.png');
             game.load.image('buttonC', 'assets/images/buttonC.png');
@@ -40,6 +40,7 @@
         }
 
         function create() {
+            back = game.add.image(0, 0, 'back');
             uiManager.initUI(callBack);
         }
 
@@ -100,8 +101,8 @@
                     answer = "以后的路，我会飞起来";
                 }
 
-                var style = { font: "30px Arial", fill: "#FFFFFF", align:"center"};
-                this.answer = game.add.text(game.world.centerX+30, game.world.centerY-30, answer, style);
+                var style = { font: "30px Arial", fill: "white", align:"center"};
+                this.answer = game.add.text(game.world.centerX, game.world.centerY-30, answer, style);
                 this.answer.anchor.x = .5;
                 this.answer.anchor.y = .5;
             }
